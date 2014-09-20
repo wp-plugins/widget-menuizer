@@ -23,7 +23,7 @@ Because it's possible to put menu widgets inside sidebars, you may see a warning
 
 1. Upload the `widget-menuizer` directory to your plugins directory (typically wp-content/plugins)
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Visit Appearance > Menus to add sidebars to your menus
+3. Visit Appearance > Menus to add sidebars to your menus (you might have to go into Screen Options to show the Sidebars option)
 
 == Frequently Asked Questions ==
 
@@ -44,6 +44,10 @@ If the menu widget your sidebar contains is for a different menu than the one yo
 = I changed themes and my sidebar disappeared from my menu. What gives? =
 
 Because the contents of sidebar regions are tied to particular themes (different themes have different regions, after all), if you place a sidebar that belongs to one theme into your menu, and then change themes, the sidebar will not be shown in your menu. *Only sidebars from the active theme can be displayed.*
+
+= I don't see 'Sidebars' as an option in the lefthand column of the Edit Menus page after activating this. Where is it? =
+
+In the upper right corner of your window, click on 'Screen Options' and make sure the Sidebars box is checked.
 
 == Screenshots ==
 

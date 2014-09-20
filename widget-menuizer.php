@@ -3,7 +3,7 @@
 Plugin Name: Widget Menuizer
 Plugin URI: http://cornershopcreative.com/code/widget-menuizer
 Description: Embed sidebar regions in your WordPress navigation menus.
-Version: 0.5
+Version: 0.5.5
 Author: Cornershop Creative
 Author URI: http://cornershopcreative.com
 License: GPLv2 or later
@@ -159,7 +159,7 @@ class Sidebar_Walker_Nav_Menu_Edit extends Walker_Nav_Menu_Edit {
 
 		//if the menu item is a sidebar and it belongs to a theme other than the active one, it's invalid
 		if ( 'sidebar' == $item->type &&  basename( get_stylesheet_directory() ) != $item->object ) {
-			$item->_invalid = __('This sidebar will not be displayed as it is not from the currently active theme', 'widget-menuizer');
+			$item->_invalid = __('This sidebar cannot be displayed as it is not from the currently active theme', 'widget-menuizer');
 		}
 
 		$title = $item->title;
@@ -236,17 +236,31 @@ class Sidebar_Walker_Nav_Menu_Edit extends Walker_Nav_Menu_Edit {
 						<input type="text" id="edit-menu-item-title-<?php echo $item_id; ?>" class="widefat edit-menu-item-title" name="menu-item-title[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->title ); ?>" />
 					</label>
 				</p>
+				<?php if ( 'sidebar' != $item->type ) : ?>
 				<p class="description description-thin">
 					<label for="edit-menu-item-attr-title-<?php echo $item_id; ?>">
 						<?php _e( 'Title Attribute' ); ?><br />
 						<input type="text" id="edit-menu-item-attr-title-<?php echo $item_id; ?>" class="widefat edit-menu-item-attr-title" name="menu-item-attr-title[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->post_excerpt ); ?>" />
 					</label>
 				</p>
-				<?php if ( 'sidebar' != $item->type ) : ?>
 				<p class="field-link-target description">
 					<label for="edit-menu-item-target-<?php echo $item_id; ?>">
 						<input type="checkbox" id="edit-menu-item-target-<?php echo $item_id; ?>" value="_blank" name="menu-item-target[<?php echo $item_id; ?>]"<?php checked( $item->target, '_blank' ); ?> />
 						<?php _e( 'Open link in a new window/tab' ); ?>
+					</label>
+				</p>
+				<?php else: ?>
+				<p class="description description-thin">
+					<label for="edit-menu-item-title-display-<?php echo $item_id; ?>">
+						<?php _e( 'Title Display' ); ?><br />
+						<select id="edit-menu-item-attr-title-<?php echo $item_id; ?>" class="widefat" name="menu-item-attr-title[<?php echo $item_id; ?>]" >
+						<?php
+							$options = array( 'none' => __('None', 'widget-menuizer'), 'inside' => __('Inside container', 'widget-menuizer'), 'outside' => __('Outside container', 'widget-menuizer') );
+							foreach ( $options as $value => $label ) : ?>
+								<option value="<?php echo $value; ?>" <?php selected( $item->attr_title, $value ); ?>><?php echo $label; ?></option>
+							<?php endforeach; ?>
+						?>
+						</select>
 					</label>
 				</p>
 				<?php endif; ?>
@@ -263,7 +277,7 @@ class Sidebar_Walker_Nav_Menu_Edit extends Walker_Nav_Menu_Edit {
 							<?php _e( 'Container Element', 'widget-menuizer' ); ?><br />
 							<select id="edit-menu-item-target-<?php echo $item_id; ?>" class="widefat" name="menu-item-target[<?php echo $item_id; ?>]" >
 							<?php
-								$elements = array( 'div', 'span', 'ul', 'ol', 'article', 'section', 'aside' );
+								$elements = array( 'div', 'span', 'ul', 'ol', 'article', 'section', 'aside', 'none' );
 								foreach ( $elements as $elem ) : ?>
 									<option value="<?php echo $elem; ?>" <?php selected( $item->target, $elem ); ?>><?php echo $elem; ?></option>
 								<?php endforeach;
@@ -364,7 +378,8 @@ function override_edit_nav_menu_walker( $class, $menu_id ) {
 	if ( 'Walker_Nav_Menu_Edit' == $class ) {
 		return 'Sidebar_Walker_Nav_Menu_Edit';
 	} else {
-		return $class;
+		// return $class;
+		return 'Sidebar_Walker_Nav_Menu_Edit';
 	}
 }
 add_filter( 'wp_edit_nav_menu_walker', 'override_edit_nav_menu_walker', 99, 2 );
@@ -377,6 +392,19 @@ function menuizer_nav_menu_start_el( $item_output, $item, $depth, $args ) {
 
 	if ( 'sidebar' == $item->type ) {
 
+		/**
+		 * We've hacked up the normal uses of $item's properties as follows:
+		 * $item->type       = sidebar
+		 * $item->object_id  = an arbitrary md5-ish value to keep WP happy
+		 * $item->object     = the theme this sidebar belongs to, e.g. twentyfourteen
+		 * $item->target     = the container element (div, ul, ol, aside, span, etc)
+		 * $item->classes    = the 'classes' textfield, as normal
+		 * $item->title      = the 'title' textfield, as normal
+		 * $item->xfn        = the machine name of the sidebar to show
+		 * $item->attr_title = location to show the title (none|inside|outside)
+		 * $item->url        = can't be used as WP only saves this if the type == 'custom'... sigh
+		 */
+
 		// output nothing if this item isn't from the currently active theme
 		$theme = basename( get_stylesheet_directory() );
 		if ( $theme != $item->object ) return "";
@@ -384,9 +412,10 @@ function menuizer_nav_menu_start_el( $item_output, $item, $depth, $args ) {
 		// output nothing if the given sidebar isn't active
 		if ( ! is_active_sidebar( $item->xfn ) ) return "";
 
-		// output the title... because someone might want it for some reason
-		// TODO: make this optional, rather than forcing hiding via CSS. Maybe use attr_title as a toggle?
-		$output = '<span class="menuizer-title" title="' . $item->attr_title . '">' . $item->title . '</span>';
+		// output the title here, if desired
+		if ( 'outside' == $item->attr_title ) {
+			$output = '<span class="menuizer-title">' . $item->title . '</span>';
+		}
 
 		// stringify custom classes for inclusion in container
 		$classes = array();
@@ -396,11 +425,19 @@ function menuizer_nav_menu_start_el( $item_output, $item, $depth, $args ) {
 		$classes = implode( " ", $classes );
 
 		// wrap
-		$output .= '<' . $item->target . ' class="menuizer-container ' . $classes . '">';
+		if ( $item->target != 'none' ) {
+			$output .= '<' . $item->target . ' class="menuizer-container ' . $classes . '">';
+		}
+		// output the title here, if desired
+		if ( 'inside' == $item->attr_title ) {
+			$output .= '<span class="menuizer-title">' . $item->title . '</span>';
+		}
 		ob_start();
 		dynamic_sidebar( $item->xfn );
 		$output .= ob_get_clean();
-		$output .= '</' . $item->target . '>';
+		if ( $item->target != 'none' ) {
+			$output .= '</' . $item->target . '>';
+		}
 		$item_output = $output;
 
 	}
