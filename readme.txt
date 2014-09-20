@@ -55,5 +55,8 @@ In the upper right corner of your window, click on 'Screen Options' and make sur
 
 == Changelog ==
 
+= 0.5.5 =
+Changing 'attr_title' from a textfield into an option to set where (or whether) to display the title. Also adding a 'none' option to the container.
+
 = 0.5 =
 Initial public release.
