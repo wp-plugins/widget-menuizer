@@ -1,0 +1,14 @@
+@charset "UTF-8"
+
+#menu-settings-column #add-sidebars .inside {
+	margin-top: 0;
+}
+
+.menu-item-actions .warning {
+	background-color: #FAFAFA;
+	border-left: 4px solid #FFBA00;
+	font-size: 12px;
+	line-height: 1.3em;
+	padding: 3px 8px 5px
+}
+
