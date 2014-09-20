@@ -13,7 +13,7 @@ Unlocks the full potential of the menu system by allowing sidebar regions to be 
 
 Widget Menuizer makes it possible to embed sidebars within your site's menus. That's right: anything you can do with a widget can now be done inside your menus. This makes the menu system much more powerful, as it allows for easy creation of sophisticated "mega dropdowns" and other menu fanciness without completely overhauling the menu management system into something unfamiliar.
 
-Upon activation, when you visit the menu management screen under Appearance > Menus, you'll see a new option under the familiar Pages, Posts, Links, Categories and Tags list: Sidebars. This list consists of all the sidebar regions that exist in your currently-active theme. Simply check the box to add a sidebar into your menu the same way you would for any other menu item.
+Upon activation, when you visit the menu management screen under *Appearance > Menus*, you'll see a new option under the familiar Pages, Posts, Links, Categories and Tags list: Sidebars. This list consists of all the sidebar regions that exist in your currently-active theme. Simply check the box to add a sidebar into your menu the same way you would for any other menu item.
 
 Once in your menu, you'll see a new option, "Container Element," which lets you control which HTML tag is wrapped around the sidebars that are output into the menu.
 
@@ -40,6 +40,14 @@ With Widget Menuizer, it's easy to build "megu menus" that have whatever you wan
 Because sidebars can contain menus and menus can now contain sidebars, it's possible to accidentally create a problem where WordPress gets stuck in a loop outputting a menu inside a sidebar inside a menu inside a sidebar... etc. The warning message simply indicates that your sidebar contains a menu widget and thus *might* cause such a recursion. At this time, Widget Menuizer can't actually tell if your sidebar contains the exact same menu the sidebar has been placed into -- just that there's some menu in it somewhere.
 
 If the menu widget your sidebar contains is for a different menu than the one your sidebar is living in, you can safely ignoring the warning. If it's the same menu, however, you'll need to make an adjustment or you'll break your site!
+
+= I changed themes and my sidebar disappeared from my menu. What gives? =
+
+Because the contents of sidebar regions are tied to particular themes (different themes have different regions, after all), if you place a sidebar that belongs to one theme into your menu, and then change themes, the sidebar will not be shown in your menu. *Only sidebars from the active theme can be displayed.*
+
+== Screenshots ==
+
+1. The menu management screen after activation of Widget Menuizer. Notice the entry for 'Sidebars' at the bottom of the lefthand column.
 
 == Changelog ==
 
