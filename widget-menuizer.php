@@ -3,6 +3,7 @@
 Plugin Name: Widget Menuizer
 Plugin URI: http://cornershopcreative.com/code/widget-menuizer
 Description: Embed sidebar regions in your WordPress navigation menus.
+<<<<<<< HEAD
 Version: 0.5.6
 Author: Cornershop Creative
 Author URI: http://cornershopcreative.com
