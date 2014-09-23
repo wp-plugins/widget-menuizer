@@ -45,6 +45,8 @@ If the menu widget your sidebar contains is for a different menu than the one yo
 
 Because the contents of sidebar regions are tied to particular themes (different themes have different regions, after all), if you place a sidebar that belongs to one theme into your menu, and then change themes, the sidebar will not be shown in your menu. *Only sidebars from the active theme can be displayed.*
 
+If you're using a child theme and its regions are defined in the parent, everything should work fine -- so long as you configured the *contents* of those regions in the currently-active (child) theme.
+
 = I don't see 'Sidebars' as an option in the lefthand column of the Edit Menus page after activating this. Where is it? =
 
 In the upper right corner of your window, click on 'Screen Options' and make sure the Sidebars box is checked.
@@ -55,8 +57,12 @@ In the upper right corner of your window, click on 'Screen Options' and make sur
 
 == Changelog ==
 
+= 0.5.6
+* Registering the metabox with the list of regions later in the hopes of catching any regions defined in the wrong hook
+* Eliminating an E_NOTICE-level error during output of $output being undefined
+
 = 0.5.5 =
-Changing 'attr_title' from a textfield into an option to set where (or whether) to display the title. Also adding a 'none' option to the container.
+* Changing 'attr_title' from a textfield into an option to set where (or whether) to display the title. Also adding a 'none' option to the container.
 
 = 0.5 =
-Initial public release.
+* Initial public release.

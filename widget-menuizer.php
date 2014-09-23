@@ -3,7 +3,7 @@
 Plugin Name: Widget Menuizer
 Plugin URI: http://cornershopcreative.com/code/widget-menuizer
 Description: Embed sidebar regions in your WordPress navigation menus.
-Version: 0.5.5
+Version: 0.5.6
 Author: Cornershop Creative
 Author URI: http://cornershopcreative.com
 License: GPLv2 or later
@@ -97,7 +97,7 @@ function wp_nav_menu_sidebar_meta_box() {
 function menuizer_meta_box() {
 	add_meta_box( 'add-sidebars', __( 'Sidebars', 'widget-menuizer' ), 'wp_nav_menu_sidebar_meta_box', 'nav-menus', 'side', 'low' );
 }
-add_action( 'admin_init', 'menuizer_meta_box' );
+add_action( 'admin_init', 'menuizer_meta_box', 99 );
 
 
 /**
@@ -373,6 +373,7 @@ class Sidebar_Walker_Nav_Menu_Edit extends Walker_Nav_Menu_Edit {
 
 /**
  * Tell wp_edit_nav_menu_walker to use our new class
+ * TODO: provide a user-facing alert if something got in our way...
  */
 function override_edit_nav_menu_walker( $class, $menu_id ) {
 	if ( 'Walker_Nav_Menu_Edit' == $class ) {
@@ -411,6 +412,9 @@ function menuizer_nav_menu_start_el( $item_output, $item, $depth, $args ) {
 
 		// output nothing if the given sidebar isn't active
 		if ( ! is_active_sidebar( $item->xfn ) ) return "";
+
+		// start assembling our output
+		$output = "";
 
 		// output the title here, if desired
 		if ( 'outside' == $item->attr_title ) {
