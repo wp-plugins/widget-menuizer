@@ -2,7 +2,7 @@
 Contributors: drywallbmb
 Tags: menus, widgets, sidebars
 Requires at least: 3.9.2
-Tested up to: 4.0
+Tested up to: 4.1.1
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -53,11 +53,17 @@ In the upper right corner of your window, click on 'Screen Options' and make sur
 
 == Screenshots ==
 
-1. The menu management screen after activation of Widget Menuizer. Notice the entry for 'Sidebars' at the bottom of the lefthand column.
+1. After installation and activation, "Sidebars" should appear as an option in the menu management screen.
+2. Adding a sidebar region from the lefthand column will add it the menu, with several sidebar-specific menu options, including Label Display and Container Element
+3. Options for displaying the menu item's "Navigation Label" -- in many cases it'll be best to set as "None"
+4. Options for the HTML5 element used to contain the sidebar region. What you choose here depends on your theme and CSS; you will probably want to set this to whatever wrapper element the sidebar is usually displayed within for optimal appearance. Regardless, you'll probably need to add some CSS to get it looking exactly how you want.
 
 == Changelog ==
 
-= 0.5.6
+= 0.5.7 =
+* Changing 'Title Display' to 'Label Display' to be more consistent with the element ('Navigation Label') it refers to
+
+= 0.5.6 =
 * Registering the metabox with the list of regions later in the hopes of catching any regions defined in the wrong hook
 * Eliminating an E_NOTICE-level error during output of $output being undefined
 

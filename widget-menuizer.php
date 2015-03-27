@@ -3,8 +3,7 @@
 Plugin Name: Widget Menuizer
 Plugin URI: http://cornershopcreative.com/code/widget-menuizer
 Description: Embed sidebar regions in your WordPress navigation menus.
-<<<<<<< HEAD
-Version: 0.5.6
+Version: 0.5.7
 Author: Cornershop Creative
 Author URI: http://cornershopcreative.com
 License: GPLv2 or later
@@ -253,7 +252,7 @@ class Sidebar_Walker_Nav_Menu_Edit extends Walker_Nav_Menu_Edit {
 				<?php else: ?>
 				<p class="description description-thin">
 					<label for="edit-menu-item-title-display-<?php echo $item_id; ?>">
-						<?php _e( 'Title Display' ); ?><br />
+						<?php _e( 'Label Display' ); ?><br />
 						<select id="edit-menu-item-attr-title-<?php echo $item_id; ?>" class="widefat" name="menu-item-attr-title[<?php echo $item_id; ?>]" >
 						<?php
 							$options = array( 'none' => __('None', 'widget-menuizer'), 'inside' => __('Inside container', 'widget-menuizer'), 'outside' => __('Outside container', 'widget-menuizer') );
